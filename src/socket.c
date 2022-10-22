@@ -26,12 +26,15 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <errno.h>
+#ifdef _MSC_VER
+#include <winsock2.h>
+#else
+#include <unistd.h>
 #include <sys/time.h>
+#endif
 #include <sys/stat.h>
 #ifdef WIN32
-#include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
 #ifndef HAVE_GETIFADDRS
