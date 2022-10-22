@@ -25,6 +25,9 @@
 #include <config.h>
 #endif
 
+#ifdef _MSC_VER
+#define LIBIMOBILEDEVICE_GLUE_API __declspec( dllexport ) 
+#else
 #ifdef WIN32
 #define LIBIMOBILEDEVICE_GLUE_API __declspec( dllexport )
 #else
@@ -32,6 +35,7 @@
 #define LIBIMOBILEDEVICE_GLUE_API __attribute__((visibility("default")))
 #else
 #define LIBIMOBILEDEVICE_GLUE_API
+#endif
 #endif
 #endif
 
