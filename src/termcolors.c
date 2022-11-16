@@ -30,6 +30,10 @@
 #include <stdlib.h>
 #ifndef _MSC_VER
 #include <unistd.h>
+#else
+#include <io.h>
+#define strdup _strdup
+#define isatty _isatty
 #endif
 #include <string.h>
 #include <stdarg.h>

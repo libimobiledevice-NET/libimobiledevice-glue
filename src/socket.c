@@ -29,6 +29,7 @@
 #include <errno.h>
 #ifdef _MSC_VER
 #include <winsock2.h>
+#define strdup _strdup
 #else
 #include <unistd.h>
 #include <sys/time.h>

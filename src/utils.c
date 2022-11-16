@@ -32,6 +32,7 @@
 #include <time.h>
 #ifdef _MSC_VER
 #include <winsock2.h>
+#define strdup _strdup
 #else
 #include <sys/time.h>
 #endif
