@@ -25,18 +25,18 @@
 #include <config.h>
 #endif
 
-#ifdef _MSC_VER
-#define LIBIMOBILEDEVICE_GLUE_API __declspec( dllexport ) 
+#ifdef LIMD_GLUE_STATIC
+  #define LIMD_GLUE_API
+#elif defined(_MSC_VER)
+  #define LIMD_GLUE_API __declspec( dllexport )
+#elif defined(_WIN32)
+  #define LIMD_GLUE_API __declspec( dllexport )
 #else
-#ifdef WIN32
-#define LIBIMOBILEDEVICE_GLUE_API __declspec( dllexport )
-#else
-#ifdef HAVE_FVISIBILITY
-#define LIBIMOBILEDEVICE_GLUE_API __attribute__((visibility("default")))
-#else
-#define LIBIMOBILEDEVICE_GLUE_API
-#endif
-#endif
+  #if __GNUC__ >= 4
+    #define LIMD_GLUE_API __attribute__((visibility("default")))
+  #else
+    #define LIMD_GLUE_API
+  #endif
 #endif
 
 #endif
