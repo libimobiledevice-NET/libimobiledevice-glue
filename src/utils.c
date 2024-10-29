@@ -31,10 +31,10 @@
 #include <string.h>
 #include <time.h>
 #ifdef _MSC_VER
-#include <winsock2.h>
-#define strdup _strdup
+	#include <winsock2.h>
+	#define strdup _strdup
 #else
-#include <sys/time.h>
+	#include <sys/time.h>
 #endif
 #include <inttypes.h>
 #include <ctype.h>

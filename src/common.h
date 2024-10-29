@@ -39,4 +39,6 @@
   #endif
 #endif
 
+#include "libimobiledevice-glue/glue.h"
+
 #endif

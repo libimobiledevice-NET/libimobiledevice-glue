@@ -28,11 +28,11 @@
 #include <string.h>
 #include <errno.h>
 #ifdef _MSC_VER
-#include <winsock2.h>
-#define strdup _strdup
+	#include <winsock2.h>
+	#define strdup _strdup
 #else
-#include <unistd.h>
-#include <sys/time.h>
+	#include <unistd.h>
+	#include <sys/time.h>
 #endif
 #include <sys/stat.h>
 #ifdef WIN32

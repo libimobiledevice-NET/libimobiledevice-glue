@@ -32,7 +32,7 @@
 #define MAC_EPOCH 978307200
 
 #ifdef _MSC_VER
-#define LIBIMOBILEDEVICE_GLUE_API __declspec( dllexport ) 
+    #define LIMD_GLUE_API __declspec( dllexport ) 
 #endif
 
 LIMD_GLUE_API char *string_concat(const char *str, ...);

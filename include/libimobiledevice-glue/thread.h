@@ -26,7 +26,7 @@
 #include <libimobiledevice-glue/glue.h>
 
 #ifdef _MSC_VER
-	#define LIBIMOBILEDEVICE_GLUE_API __declspec( dllexport ) 
+	#define LIMD_GLUE_API __declspec( dllexport )
 #endif
 
 #ifdef WIN32

@@ -30,7 +30,7 @@ struct collection {
 };
 
 #ifdef _MSC_VER
-#define LIBIMOBILEDEVICE_GLUE_API __declspec( dllexport ) 
+	#define LIMD_GLUE_API __declspec( dllexport ) 
 #endif
 
 LIMD_GLUE_API void collection_init(struct collection *col);
