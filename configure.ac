@@ -1,8 +1,8 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.68)
-AC_INIT([libimobiledevice-glue], [1.0.0], [https://github.com/libimobiledevice/libimobiledevice-glue/issues],, [https://libimobiledevice.org])
+AC_PREREQ([2.68])
+AC_INIT([libimobiledevice-glue], [m4_esyscmd(./git-version-gen $RELEASE_VERSION)], [https://github.com/libimobiledevice/libimobiledevice-glue/issues], [], [https://libimobiledevice.org])
 AM_INIT_AUTOMAKE([dist-bzip2 no-dist-gzip check-news])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
 AC_CONFIG_SRCDIR([src/])
@@ -15,10 +15,15 @@ dnl libtool versioning
 #                 changes to the signature and the semantic)
 #  ? :+1 : ?   == just internal changes
 # CURRENT : REVISION : AGE
-LIBIMOBILEDEVICE_GLUE_SO_VERSION=0:0:0
+LIBIMOBILEDEVICE_GLUE_SO_VERSION=3:1:3
+
+# Check if we have a version defined
+if test -z $PACKAGE_VERSION; then
+  AC_MSG_ERROR([PACKAGE_VERSION is not defined. Make sure to configure a source tree checked out from git or that .tarball-version is present.])
+fi
 
 dnl Minimum package versions
-LIBPLIST_VERSION=2.2.0
+LIBPLIST_VERSION=2.3.0
 
 AC_SUBST(LIBIMOBILEDEVICE_GLUE_SO_VERSION)
 AC_SUBST(LIBPLIST_VERSION)
@@ -44,7 +49,9 @@ AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([asprintf strcasecmp strdup strerror strndup stpcpy vasprintf getifaddrs])
+AC_CHECK_FUNCS([asprintf strcasecmp strdup strerror strndup stpcpy vasprintf getifaddrs poll])
+# Checks for additional library requirements
+AC_SEARCH_LIBS(socket, network)
 
 AC_CHECK_HEADER(endian.h, [ac_cv_have_endian_h="yes"], [ac_cv_have_endian_h="no"])
 if test "x$ac_cv_have_endian_h" = "xno"; then
@@ -105,12 +112,12 @@ fi
 AC_CHECK_MEMBER(struct dirent.d_type, AC_DEFINE(HAVE_DIRENT_D_TYPE, 1, [define if struct dirent has member d_type]),, [#include <dirent.h>])
 
 AS_COMPILER_FLAGS(GLOBAL_CFLAGS, "-Wall -Wextra -Wmissing-declarations -Wredundant-decls -Wshadow -Wpointer-arith -Wwrite-strings -Wswitch-default -Wno-unused-parameter -fsigned-char -fvisibility=hidden")
-AC_SUBST(GLOBAL_CFLAGS)
 
-case "$GLOBAL_CFLAGS" in
-  *-fvisibility=hidden*)
-    AC_DEFINE([HAVE_FVISIBILITY], [1], [Define if compiled with -fvisibility=hidden])
-esac
+if test "x$enable_static" = "xyes" -a "x$enable_shared" = "xno"; then
+  GLOBAL_CFLAGS+=" -DLIMD_GLUE_STATIC"
+fi
+
+AC_SUBST(GLOBAL_CFLAGS)
 
 # check for large file support
 AC_SYS_LARGEFILE
