@@ -30,9 +30,11 @@
 #ifdef _MSC_VER
 	#include <winsock2.h>
 	#define strdup _strdup
+	#define FORCE_INLINE __forceinline
 #else
 	#include <unistd.h>
 	#include <sys/time.h>
+	#define FORCE_INLINE __attribute__((always_inline))
 #endif
 #include <sys/stat.h>
 #ifdef WIN32
@@ -159,7 +161,7 @@ enum poll_status
 };
 
 #ifdef WIN32
-static inline __attribute__((always_inline)) int WSAError_to_errno(int wsaerr)
+static inline FORCE_INLINE int WSAError_to_errno(int wsaerr)
 {
 	switch (wsaerr) {
 		case WSAEINVAL:
@@ -204,7 +206,7 @@ static inline __attribute__((always_inline)) int WSAError_to_errno(int wsaerr)
 #endif
 
 // timeout of -1 means infinity
-static inline __attribute__((always_inline)) enum poll_status poll_wrapper(int fd, fd_mode mode, int timeout)
+static inline FORCE_INLINE enum poll_status poll_wrapper(int fd, fd_mode mode, int timeout)
 {
 #ifdef HAVE_POLL
 	// https://man7.org/linux/man-pages/man2/select.2.html
